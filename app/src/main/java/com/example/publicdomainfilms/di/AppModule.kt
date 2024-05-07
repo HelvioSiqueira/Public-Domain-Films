@@ -1,6 +1,7 @@
 package com.example.publicdomainfilms.di
 
 import androidx.media3.ui.BuildConfig
+import com.example.publicdomainfilms.data.Repository
 import com.example.publicdomainfilms.data.remote.InternetArchiveApi
 import dagger.Module
 import dagger.Provides
@@ -47,4 +48,9 @@ object AppModule {
 
         return retrofit.create(InternetArchiveApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideRepository(internetArchiveApi: InternetArchiveApi): Repository =
+        Repository(internetArchiveApi)
 }
