@@ -1,6 +1,8 @@
 package com.example.publicdomainfilms.routes
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,10 +17,7 @@ fun MyNavHost(
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(NavPages.filmListPage) {
-
-            val viewModel = hiltViewModel<FilmListViewModel>()
-            val state = viewModel.filmListState.value
-            FilmList(filmListState = state)
+            FilmList()
         }
     }
 

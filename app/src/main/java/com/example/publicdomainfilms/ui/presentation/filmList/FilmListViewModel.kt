@@ -6,7 +6,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.publicdomainfilms.data.Repository
 import com.example.publicdomainfilms.model.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +18,7 @@ class FilmListViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private var listOfFilms = listOf<Film>()
-    val filmListState = mutableStateOf(FilmListState(filmList = emptyList()))
+     var listOfFilms = mutableStateOf(listOf<Film>())
 
     init {
         getFilms(genreIdentifier = "Comedy_Films")
@@ -33,8 +35,7 @@ class FilmListViewModel @Inject constructor(
                 )
 
             filmListFlow.catch { }.collect {
-                listOfFilms = it?.response?.films ?: emptyList()
-                filmListState.value = filmListState.value.copy(filmList = listOfFilms)
+                listOfFilms.value = it?.response?.films ?: emptyList()
             }
         }
     }
