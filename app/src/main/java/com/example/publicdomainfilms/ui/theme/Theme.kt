@@ -15,26 +15,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = md_theme_light_primary,
+    secondary = md_theme_light_secondary,
+    background = md_theme_light_background,
+    onPrimaryContainer = md_theme_light_primary_container,
+    onSecondaryContainer = md_theme_light_disabled_button,
+    surface = md_theme_light_text,
+    onSurface = md_theme_light_hover,
+    error = md_theme_light_error,
+    onErrorContainer = md_theme_light_allright,
 )
 
 @Composable
@@ -50,7 +40,7 @@ fun PublicDomainFilmsTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        darkTheme -> LightColorScheme
         else -> LightColorScheme
     }
     val view = LocalView.current

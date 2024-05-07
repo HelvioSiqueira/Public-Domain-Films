@@ -2,10 +2,12 @@ package com.example.publicdomainfilms.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val md_theme_light_primary = Color(0xFFFFC107)
+val md_theme_light_secondary = Color(0xFFFFEB3B)
+val md_theme_light_background = Color(0xFF302F30)
+val md_theme_light_primary_container = Color(0xFF242424)
+val md_theme_light_text = Color(0xFFE6E6E6)
+val md_theme_light_hover = Color(0xFF412906)
+val md_theme_light_error = Color(0xFF692121)
+val md_theme_light_allright = Color(0xFF54A118)
+val md_theme_light_disabled_button = Color(0xFFB6B5B5)
