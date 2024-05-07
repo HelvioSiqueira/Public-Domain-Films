@@ -9,7 +9,7 @@ import timber.log.Timber
 class Repository(private val internetArchiveApi: InternetArchiveApi) {
 
     suspend fun getFilms(
-        query: String,
+        genre: String,
         page: Int,
         sort: String
     ): Flow<GetFilms?> = flow {
@@ -17,11 +17,11 @@ class Repository(private val internetArchiveApi: InternetArchiveApi) {
 
         try {
             val response = internetArchiveApi.getFilms(
-                query = query,
-                fields = "identifier,downloads,year,avg_rating,title,description,num_reviews",
+                query = "collection:$genre",
+                fields = "identifier,downloads,year,avg_rating,title,description,num_reviews,creator",
                 rows = 50,
                 page = page,
-                sort = "$sort desc"
+                sort = "$sort desc",
             )
 
             if (response.isSuccessful) getFilms = response.body()

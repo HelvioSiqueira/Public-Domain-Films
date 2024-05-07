@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 interface InternetArchiveApi {
 
-    @GET("output=json")
-    fun getFilms(
+    @GET("advancedsearch.php?output=json")
+    suspend fun getFilms(
         @Query("q") query: String,
         @Query("fl") fields: String,
         @Query("rows") rows: Int,

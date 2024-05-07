@@ -24,7 +24,7 @@ object AppModule {
         val logLevel =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
-        return HttpLoggingInterceptor().setLevel(logLevel)
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
     @Singleton
@@ -41,7 +41,7 @@ object AppModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): InternetArchiveApi {
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://archive.org/advancedsearch.php?")
+            .baseUrl("https://archive.org/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
