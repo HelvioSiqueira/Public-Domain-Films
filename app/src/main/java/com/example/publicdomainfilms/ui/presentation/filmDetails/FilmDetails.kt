@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.PlayArrow
@@ -73,7 +75,9 @@ fun FilmDetails(
                 }
             }
             Column(
-                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth()
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
             ) {
                 Text(
                     text = title,
@@ -123,11 +127,15 @@ fun FilmDetails(
                     )
                 }
                 Text(
-                    modifier = Modifier.padding(top = 20.dp),
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .height(180.dp)
+                        .verticalScroll(rememberScrollState()),
                     text = decodedDescription,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.W500
+                        fontWeight = FontWeight.W500,
+                        textAlign = TextAlign.Justify
                     )
                 )
                 ElevatedButton(
