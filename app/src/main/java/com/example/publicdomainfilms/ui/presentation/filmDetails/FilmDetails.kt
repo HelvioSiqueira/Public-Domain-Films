@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun FilmDetails(
@@ -40,6 +42,9 @@ fun FilmDetails(
     description: String,
     year: String
 ) {
+
+    val decodedDescription = description.replace("+", "/")
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -119,7 +124,7 @@ fun FilmDetails(
                 }
                 Text(
                     modifier = Modifier.padding(top = 20.dp),
-                    text = description,
+                    text = decodedDescription,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.W500

@@ -29,8 +29,6 @@ fun FilmList(
 
     val listOfFilms by remember { viewModel.listOfFilms }
 
-    Timber.d(listOfFilms.joinToString(separator = "\n") { it.description.javaClass.name })
-
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background

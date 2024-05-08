@@ -34,6 +34,8 @@ import com.example.publicdomainfilms.model.Film
 import com.example.publicdomainfilms.routes.NavPages
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import timber.log.Timber
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun ItemFilm(
@@ -60,11 +62,14 @@ fun ItemFilm(
                     description = (descriptionAny as ArrayList<*>)
                         .first()
                         .toString()
+                        .replace("/", "+")
                 } else if (descriptionAny.javaClass == String::class.java) {
-                    description = descriptionAny.toString()
+                    description = descriptionAny
+                        .toString()
+                        .replace("/", "+")
                 }
 
-                description = "null"
+                Timber.d(description)
 
                 navController.navigate("${NavPages.filmDetails}/${film.identifier}/${film.title}/${film.creator ?: "null"}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "null"}")
             },
