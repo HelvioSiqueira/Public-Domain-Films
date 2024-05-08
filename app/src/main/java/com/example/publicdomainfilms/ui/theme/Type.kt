@@ -11,7 +11,7 @@ import com.example.publicdomainfilms.R
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyMedium = TextStyle(
-        fontFamily = FontFamily(Font(R.font.releway_regular)),
+        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 23.12.sp,

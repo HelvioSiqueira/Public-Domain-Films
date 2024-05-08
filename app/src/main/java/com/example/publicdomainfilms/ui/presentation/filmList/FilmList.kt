@@ -34,7 +34,8 @@ fun FilmList(
     ) {
         LazyVerticalGrid(columns = GridCells.Fixed(2)) {
             items(listOfFilms.size) { index ->
-                Text(text = listOfFilms[index].title)
+                val itemFilm = listOfFilms[index]
+                ItemFilm(film = itemFilm)
             }
         }
     }

@@ -12,6 +12,6 @@ data class Film(
     @SerializedName("num_reviews")
     val numReviews: Int,
     val title: String,
-    val year: Int,
-    val creator: String
+    val year: Int?,
+    val creator: String?
 )
