@@ -14,6 +14,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.publicdomainfilms.model.Film
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +23,8 @@ import timber.log.Timber
 
 @Composable
 fun FilmList(
-    viewModel: FilmListViewModel = hiltViewModel()
+    viewModel: FilmListViewModel = hiltViewModel(),
+    navController: NavController
 ) {
 
     val listOfFilms by remember { viewModel.listOfFilms }
@@ -35,7 +38,7 @@ fun FilmList(
         LazyVerticalGrid(columns = GridCells.Fixed(2)) {
             items(listOfFilms.size) { index ->
                 val itemFilm = listOfFilms[index]
-                ItemFilm(film = itemFilm)
+                ItemFilm(film = itemFilm, navController = navController)
             }
         }
     }
@@ -45,6 +48,6 @@ fun FilmList(
 @Composable
 private fun FilmListPreview() {
     PublicDomainFilmsTheme {
-        FilmList()
+        FilmList(navController = rememberNavController())
     }
 }

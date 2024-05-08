@@ -55,7 +55,12 @@ android {
 
 dependencies {
 
+    //Navigation Compose
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.animation)
+
     implementation(libs.accompanist.systemuicontroller)
+
     //Icons Extended
     implementation(libs.androidx.material.icon)
 
