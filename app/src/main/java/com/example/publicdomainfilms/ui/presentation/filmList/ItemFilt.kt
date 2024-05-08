@@ -4,9 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -43,9 +45,9 @@ fun ItemFilm(
 
     Card(
         modifier = modifier
-            .wrapContentWidth()
-            .height(300.dp)
-            .padding(8.dp),
+            .wrapContentSize()
+            .padding(8.dp)
+            .defaultMinSize(minHeight = 300.dp),
         colors = cardColors,
     ) {
         Column {
@@ -77,7 +79,6 @@ fun ItemFilm(
             ) {
                 Text(
                     text = film.title,
-                    maxLines = 2,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W900)
                 )

@@ -55,6 +55,7 @@ android {
 
 dependencies {
 
+    implementation(libs.accompanist.systemuicontroller)
     //Icons Extended
     implementation(libs.androidx.material.icon)
 
