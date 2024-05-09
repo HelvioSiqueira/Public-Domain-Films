@@ -55,7 +55,6 @@ fun PlayerControls(
             CenterPlayer(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(bottom = 120.dp)
                     .fillMaxWidth(),
                 isPlaying = isPlaying,
                 playbackState = playbackState,
@@ -66,7 +65,6 @@ fun PlayerControls(
             BottomPlayer(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding()
                     .background(Color.Black.copy(alpha = 0.5f))
                     .animateEnterExit(
                         enter =

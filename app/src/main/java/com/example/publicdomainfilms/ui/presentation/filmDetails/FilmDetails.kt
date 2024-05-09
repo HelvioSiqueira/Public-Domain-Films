@@ -25,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.publicdomainfilms.routes.NavPages
@@ -43,6 +46,7 @@ import java.nio.charset.StandardCharsets
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SharedTransitionScope.FilmDetails(
+    viewModel: FilmDetailsViewModel = hiltViewModel(),
     identifier: String,
     title: String,
     creator: String,
@@ -53,6 +57,12 @@ fun SharedTransitionScope.FilmDetails(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
+
+    val filmUrl by remember {
+        viewModel.filmUrl
+    }
+
+    viewModel.getFilmUrl(identifier)
 
     val decodedDescription = description.replace("+", "/")
 
@@ -194,9 +204,10 @@ fun SharedTransitionScope.FilmDetails(
                         .align(Alignment.CenterHorizontally)
                         .width(280.dp)
                         .height(70.dp),
+                    enabled = filmUrl.isNotEmpty(),
                     onClick = {
 
-                        val decodedUrl = "https://archive.org/download/${identifier}/Produce_50_512kb.mp4".replace("/", "+")
+                        val decodedUrl = filmUrl.replace("/", "+")
 
                         navController.navigate("${NavPages.filmPlayer}/${decodedUrl}")
                     }) {

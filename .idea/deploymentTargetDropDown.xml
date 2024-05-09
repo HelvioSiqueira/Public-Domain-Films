@@ -5,9 +5,6 @@
       <entry key="FilmListPreview">
         <State />
       </entry>
-      <entry key="GenreListPreview">
-        <State />
-      </entry>
       <entry key="ItemFilmPreview">
         <State />
       </entry>
@@ -29,6 +26,9 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-05-08T22:54:58.045911400Z" />
         </State>
+      </entry>
+      <entry key="PlayerPagePreview">
+        <State />
       </entry>
       <entry key="app">
         <State>
