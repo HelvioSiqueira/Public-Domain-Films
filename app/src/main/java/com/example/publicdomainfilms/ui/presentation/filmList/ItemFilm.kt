@@ -28,15 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
-import com.example.publicdomainfilms.model.Film
+import com.example.publicdomainfilms.model.getFilms.Film
 import com.example.publicdomainfilms.routes.NavPages
-import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import timber.log.Timber
 
 @OptIn(ExperimentalSharedTransitionApi::class)

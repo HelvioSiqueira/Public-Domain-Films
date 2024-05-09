@@ -1,6 +1,6 @@
 package com.example.publicdomainfilms.data.remote
 
-import com.example.publicdomainfilms.model.GetFilms
+import com.example.publicdomainfilms.model.getFilms.GetFilms
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

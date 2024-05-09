@@ -1,7 +1,7 @@
 package com.example.publicdomainfilms.data
 
 import com.example.publicdomainfilms.data.remote.InternetArchiveApi
-import com.example.publicdomainfilms.model.GetFilms
+import com.example.publicdomainfilms.model.getFilms.GetFilms
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber

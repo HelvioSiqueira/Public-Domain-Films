@@ -1,4 +1,4 @@
-package com.example.publicdomainfilms.model
+package com.example.publicdomainfilms.model.getFilms
 
 data class Params(
     val fields: String,
