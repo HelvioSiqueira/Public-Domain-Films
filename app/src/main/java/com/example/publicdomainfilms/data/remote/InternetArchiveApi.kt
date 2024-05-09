@@ -1,8 +1,10 @@
 package com.example.publicdomainfilms.data.remote
 
 import com.example.publicdomainfilms.model.getFilms.GetFilms
+import com.example.publicdomainfilms.model.getMetadata.GetMetadata
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface InternetArchiveApi {
@@ -15,5 +17,10 @@ interface InternetArchiveApi {
         @Query("page") page: Int,
         @Query("sort") sort: String,
     ): Response<GetFilms>
+
+    @GET("metadata/{identifier}")
+    suspend fun getMetadata(
+        @Path("identifier") identifier: String
+    ): Response<GetMetadata>
 
 }

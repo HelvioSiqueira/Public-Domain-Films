@@ -2,6 +2,7 @@ package com.example.publicdomainfilms.data
 
 import com.example.publicdomainfilms.data.remote.InternetArchiveApi
 import com.example.publicdomainfilms.model.getFilms.GetFilms
+import com.example.publicdomainfilms.model.getMetadata.GetMetadata
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
@@ -27,9 +28,26 @@ class Repository(private val internetArchiveApi: InternetArchiveApi) {
             if (response.isSuccessful) getFilms = response.body()
 
         } catch (e: Exception) {
-            Timber.d(e)
+            Timber.e(e)
         }
 
         emit(getFilms)
+    }
+
+    suspend fun getMetadata(
+        identifier: String
+    ): Flow<GetMetadata?> = flow {
+        var getMetadata: GetMetadata? = null
+
+        try {
+            val response = internetArchiveApi.getMetadata(identifier)
+
+            if (response.isSuccessful) getMetadata = response.body()
+
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+
+        emit(getMetadata)
     }
 }
