@@ -26,12 +26,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.publicdomainfilms.R
 import com.example.publicdomainfilms.model.getFilms.Film
 import com.example.publicdomainfilms.routes.NavPages
 import timber.log.Timber
@@ -147,7 +149,7 @@ fun SharedTransitionScope.ItemFilm(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        Icons.Filled.StarRate,
+                        painter = painterResource(id = R.drawable.starfullsvg),
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = null
                     )
@@ -170,7 +172,14 @@ fun SharedTransitionScope.ItemFilm(
                     )
 
                     Icon(
-                        Icons.Filled.Download,
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "iconDownload/${film.identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
+                        imageVector =  Icons.Filled.Download,
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = null
                     )

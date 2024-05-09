@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -41,29 +42,20 @@ fun CenterPlayer(
     val colorButtonPlay = MaterialTheme.colorScheme.background.copy(alpha = 0.6f)
 
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         //Replay
-        Row(
+        Icon(
             modifier = Modifier.clickable {
                 onReplayClick()
-            }
-        ) {
-            Icon(
-                modifier = Modifier.padding(end = 9.dp),
-                painter = painterResource(id = R.drawable.preview),
-                tint = MaterialTheme.colorScheme.surface,
-                contentDescription = null
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.tensec),
-                tint = MaterialTheme.colorScheme.surface,
-                contentDescription = null
-            )
-        }
+            },
+            painter = painterResource(id = R.drawable.backward),
+            tint = MaterialTheme.colorScheme.primary,
+            contentDescription = null
+        )
 
         //Pause/Play
         Box(
@@ -85,23 +77,14 @@ fun CenterPlayer(
         }
 
         //Forward
-        Row(
+        Icon(
             modifier = Modifier.clickable {
                 onForwardClick()
-            }
-        ) {
-            Icon(
-                modifier = Modifier.padding(end = 9.dp),
-                painter = painterResource(id = R.drawable.tensec),
-                tint = MaterialTheme.colorScheme.surface,
-                contentDescription = null
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.forward),
-                tint = MaterialTheme.colorScheme.surface,
-                contentDescription = null
-            )
-        }
+            },
+            painter = painterResource(id = R.drawable.forward),
+            tint = MaterialTheme.colorScheme.primary,
+            contentDescription = null
+        )
     }
 }
 

@@ -33,7 +33,7 @@ fun TopPlayer(modifier: Modifier = Modifier, title: () -> String, onBackClicked:
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.arrow_back),
-                tint = MaterialTheme.colorScheme.surface,
+                tint = MaterialTheme.colorScheme.primary,
                 contentDescription = null
             )
         }

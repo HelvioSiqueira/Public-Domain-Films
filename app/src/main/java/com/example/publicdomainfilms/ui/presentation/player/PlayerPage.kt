@@ -51,7 +51,8 @@ import timber.log.Timber
 @Composable
 fun PlayerPage(
     navController: NavController,
-    contentUriReceiver: String
+    contentUriReceiver: String,
+    filmName: String
 ) {
     val context = LocalContext.current
 
@@ -137,7 +138,7 @@ fun PlayerPage(
                 PlayerView(ctx).apply {
                     player = exoPlayer
                     useController = false
-                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                     layoutParams =
                         FrameLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -152,7 +153,7 @@ fun PlayerPage(
         onBackClicked = { navController.popBackStack() },
         isVisible = { shouldShowControls },
         isPlaying = { isPlaying },
-        title = { exoPlayer.mediaMetadata.displayTitle.toString() },
+        title = { filmName },
         playbackState = { playbackState },
         onReplayClick = { exoPlayer.seekBack() },
         onForwardClick = { exoPlayer.seekForward() },
@@ -191,7 +192,8 @@ private fun PlayerPagePreview() {
     PublicDomainFilmsTheme {
         PlayerPage(
             navController = rememberNavController(),
-            contentUriReceiver = "https://archive.org/download/his_girl_friday/his_girl_friday.mp4"
+            contentUriReceiver = "https://archive.org/download/his_girl_friday/his_girl_friday.mp4",
+            filmName = "Alice no Pais das Maravilhas"
         )
     }
 }

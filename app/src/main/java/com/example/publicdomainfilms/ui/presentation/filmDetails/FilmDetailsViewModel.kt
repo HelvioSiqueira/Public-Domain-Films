@@ -37,7 +37,6 @@ class FilmDetailsViewModel @Inject constructor(private val repository: Repositor
                     } catch (e: Exception) {
                         stringBuilder.append("https://ia902706.us.archive.org/1/items/ShrimpsForADay1934/Produce_50_512kb.mp4")
                     }
-                    Timber.d(stringBuilder.toString())
                     filmUrl.value = stringBuilder.toString()
                 }
             }

@@ -64,14 +64,18 @@ fun MyNavHost(
                     animatedVisibilityScope = this
                 )
             }
-            composable("${NavPages.filmPlayer}/{contentUri}", arguments = listOf(
+            composable("${NavPages.filmPlayer}/{contentUri}/{filmName}", arguments = listOf(
                 navArgument("contentUri") {
+                    type = NavType.StringType
+                },
+                navArgument("filmName") {
                     type = NavType.StringType
                 }
             )) {
                 PlayerPage(
                     navController = navController,
-                    contentUriReceiver = it.arguments?.getString("contentUri") ?: ""
+                    contentUriReceiver = it.arguments?.getString("contentUri") ?: "",
+                    filmName = it.arguments?.getString("filmName") ?: ""
                 )
             }
         }

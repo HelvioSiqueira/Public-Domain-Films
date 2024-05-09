@@ -172,7 +172,14 @@ fun SharedTransitionScope.FilmDetails(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        Icons.Filled.Download,
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "iconDownload/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
+                        imageVector =  Icons.Filled.Download,
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = null
                     )
@@ -214,7 +221,7 @@ fun SharedTransitionScope.FilmDetails(
 
                         val decodedUrl = filmUrl.replace("/", "+")
 
-                        navController.navigate("${NavPages.filmPlayer}/${decodedUrl}")
+                        navController.navigate("${NavPages.filmPlayer}/${decodedUrl}/${title}")
                     }) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
