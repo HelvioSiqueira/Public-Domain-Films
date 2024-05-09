@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.publicdomainfilms.ui.presentation.filmDetails.FilmDetails
 import com.example.publicdomainfilms.ui.presentation.filmList.FilmList
+import com.example.publicdomainfilms.ui.presentation.player.PlayerPage
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -59,7 +60,18 @@ fun MyNavHost(
                     downloads = it.arguments?.getInt("downloads") ?: 0,
                     description = it.arguments?.getString("description") ?: "",
                     year = it.arguments?.getString("year") ?: "",
+                    navController = navController,
                     animatedVisibilityScope = this
+                )
+            }
+            composable("${NavPages.filmPlayer}/{contentUri}", arguments = listOf(
+                navArgument("contentUri") {
+                    type = NavType.StringType
+                }
+            )) {
+                PlayerPage(
+                    navController = navController,
+                    contentUriReceiver = it.arguments?.getString("contentUri") ?: ""
                 )
             }
         }

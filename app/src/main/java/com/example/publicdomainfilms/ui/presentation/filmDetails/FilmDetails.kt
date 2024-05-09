@@ -33,7 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.publicdomainfilms.routes.NavPages
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
@@ -48,6 +50,7 @@ fun SharedTransitionScope.FilmDetails(
     downloads: Int,
     description: String,
     year: String,
+    navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
@@ -191,7 +194,12 @@ fun SharedTransitionScope.FilmDetails(
                         .align(Alignment.CenterHorizontally)
                         .width(280.dp)
                         .height(70.dp),
-                    onClick = { }) {
+                    onClick = {
+
+                        val decodedUrl = "https://archive.org/download/${identifier}/Produce_50_512kb.mp4".replace("/", "+")
+
+                        navController.navigate("${NavPages.filmPlayer}/${decodedUrl}")
+                    }) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
