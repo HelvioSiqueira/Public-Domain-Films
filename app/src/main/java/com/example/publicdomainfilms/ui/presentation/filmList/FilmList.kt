@@ -12,16 +12,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -29,8 +25,10 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -48,6 +46,7 @@ fun SharedTransitionScope.FilmList(
 ) {
 
     val listOfFilms by remember { viewModel.listOfFilms }
+    var titleAppBar by remember { mutableStateOf("COMEDY") }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -60,8 +59,9 @@ fun SharedTransitionScope.FilmList(
         actionIconContentColor = MaterialTheme.colorScheme.primary
     )
 
-    fun onSelectedGenre(genre: String) {
-        viewModel.getFilms(genre)
+    fun onSelectedGenre(genreId: String, genre: String) {
+        viewModel.getFilms(genreId)
+        titleAppBar = genre
     }
 
     MyDrawer(drawerState, onSelectedGenre = ::onSelectedGenre) {
@@ -76,7 +76,7 @@ fun SharedTransitionScope.FilmList(
                     TopAppBar(
                         title = {
                             Text(
-                                text = "COMEDY",
+                                text = titleAppBar,
                                 style = MaterialTheme.typography.bodyMedium.copy(fontSize = 24.sp)
                             )
                         },

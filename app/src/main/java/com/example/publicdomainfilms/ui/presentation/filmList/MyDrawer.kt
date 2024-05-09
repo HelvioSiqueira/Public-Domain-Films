@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MyDrawer(
     drawerState: DrawerState,
-    onSelectedGenre: (String) -> Unit,
+    onSelectedGenre: (String, String) -> Unit,
     screenContent: @Composable () -> Unit,
 ) {
 
@@ -56,7 +56,7 @@ fun MyDrawer(
                     selected = selected == "Comedy",
                     onClick = {
                         selected = "Comedy"
-                        onSelectedGenre("Comedy_Films")
+                        onSelectedGenre("Comedy_Films", "COMEDY")
                         scope.launch {
                             drawerState.close()
                         }
@@ -69,7 +69,7 @@ fun MyDrawer(
                     selected = selected == "Noir",
                     onClick = {
                         selected = "Noir"
-                        onSelectedGenre("Film_Noir")
+                        onSelectedGenre("Film_Noir", "NOIR")
                         scope.launch {
                             drawerState.close()
                         }
@@ -82,7 +82,7 @@ fun MyDrawer(
                     selected = selected == "SciFi/Terror",
                     onClick = {
                         selected = "SciFi/Terror"
-                        onSelectedGenre("SciFi_Horror")
+                        onSelectedGenre("SciFi_Horror", "SCIFI/TERROR")
                         scope.launch {
                             drawerState.close()
                         }
@@ -95,7 +95,7 @@ fun MyDrawer(
                     selected = selected == "Silent",
                     onClick = {
                         selected = "Silent"
-                        onSelectedGenre("silent_films")
+                        onSelectedGenre("silent_films", "SILENT")
                         scope.launch {
                             drawerState.close()
                         }
@@ -106,15 +106,5 @@ fun MyDrawer(
             }
         }) {
         screenContent()
-    }
-}
-
-@Preview
-@Composable
-private fun MyDrawerPreview() {
-    PublicDomainFilmsTheme {
-        MyDrawer(
-            rememberDrawerState(initialValue = DrawerValue.Open),
-            onSelectedGenre = { "dasd" }) {}
     }
 }

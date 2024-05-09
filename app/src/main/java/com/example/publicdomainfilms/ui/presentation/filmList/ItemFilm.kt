@@ -51,6 +51,18 @@ fun SharedTransitionScope.ItemFilm(
         containerColor = MaterialTheme.colorScheme.onPrimaryContainer
     )
 
+    val creatorAny = film.creator
+    var creator = ""
+
+    if (creatorAny?.javaClass == ArrayList::class.java) {
+        creator = (creatorAny as ArrayList<*>)
+            .first()
+            .toString()
+            .split(",").first()
+    } else if (creatorAny?.javaClass == String::class.java) {
+        creator = creatorAny.toString().split(",").first()
+    }
+
     Card(
         modifier = modifier
             .wrapContentSize()
@@ -72,9 +84,9 @@ fun SharedTransitionScope.ItemFilm(
                         .replace("/", "+")
                 }
 
-                Timber.d("${NavPages.filmDetails}/${film.identifier}/${film.title}/${film.creator ?: "Unknown"}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
+                Timber.d("${NavPages.filmDetails}/${film.identifier}/${film.title}/${creator.ifEmpty { "Unknown" }}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
 
-                navController.navigate("${NavPages.filmDetails}/${film.identifier}/${film.title}/${film.creator ?: "Unknown"}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
+                navController.navigate("${NavPages.filmDetails}/${film.identifier}/${film.title}/${creator.ifEmpty { "Unknown" }}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
             },
         colors = cardColors,
     ) {
@@ -138,7 +150,7 @@ fun SharedTransitionScope.ItemFilm(
                             tween(durationMillis = 1000)
                         }
                     ),
-                    text = film.creator ?: "Unknown",
+                    text = creator.ifEmpty { "Unknown" },
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontSize = 12.sp,
                         fontWeight = FontWeight.W300,
@@ -179,7 +191,7 @@ fun SharedTransitionScope.ItemFilm(
                                 tween(durationMillis = 1000)
                             }
                         ),
-                        imageVector =  Icons.Filled.Download,
+                        imageVector = Icons.Filled.Download,
                         tint = MaterialTheme.colorScheme.primary,
                         contentDescription = null
                     )

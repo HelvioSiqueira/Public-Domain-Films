@@ -13,5 +13,5 @@ data class Film(
     val numReviews: Int,
     val title: String,
     val year: Int?,
-    val creator: String?
+    val creator: Any?
 )
