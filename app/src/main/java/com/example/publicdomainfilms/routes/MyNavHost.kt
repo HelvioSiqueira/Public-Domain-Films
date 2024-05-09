@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.publicdomainfilms.ui.presentation.filmDetails.FilmDetails
 import com.example.publicdomainfilms.ui.presentation.filmList.FilmList
+import com.example.publicdomainfilms.ui.presentation.filmList.FilmListViewModel
 import com.example.publicdomainfilms.ui.presentation.player.PlayerPage
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -18,12 +20,13 @@ import com.example.publicdomainfilms.ui.presentation.player.PlayerPage
 fun MyNavHost(
     navController: NavHostController,
     startDestination: String,
+    filmListViewModel: FilmListViewModel
 ) {
 
     SharedTransitionLayout {
         NavHost(navController = navController, startDestination = startDestination) {
             composable(NavPages.filmListPage) {
-                FilmList(navController = navController, animatedVisibilityScope = this)
+                FilmList(navController = navController, animatedVisibilityScope = this, viewModel = filmListViewModel)
             }
 
             composable(

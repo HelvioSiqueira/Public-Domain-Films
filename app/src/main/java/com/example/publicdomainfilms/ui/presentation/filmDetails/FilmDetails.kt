@@ -215,7 +215,7 @@ fun SharedTransitionScope.FilmDetails(
                         .padding(top = 30.dp)
                         .align(Alignment.CenterHorizontally)
                         .width(280.dp)
-                        .height(70.dp),
+                        .height(50.dp),
                     enabled = filmUrl.isNotEmpty(),
                     onClick = {
 

@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.SplashScreen.PublicDomainFilms" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#FF302F30</item>
+        <item name="windowSplashScreenBackground">#FF161516</item>
         <item name="splashScreenIconSize">200dp</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/play</item>
         <item name="postSplashScreenTheme">@style/Theme.SplashScreen</item>
