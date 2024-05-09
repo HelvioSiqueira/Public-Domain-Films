@@ -25,6 +25,7 @@ fun PlayerControls(
     onBackClicked: () -> Unit,
     isVisible: () -> Boolean,
     isPlaying: () -> Boolean,
+    isLoading: () -> Boolean,
     title: () -> String,
     onReplayClick: () -> Unit,
     onForwardClick: () -> Unit,
@@ -32,7 +33,6 @@ fun PlayerControls(
     totalDuration: () -> Long,
     currentTime: () -> Long,
     bufferedPercentage: () -> Int,
-    playbackState: () -> Int,
     onSeekChanged: (timeMs: Float) -> Unit
 ) {
     val visible = remember(isVisible()) { isVisible() }
@@ -56,7 +56,7 @@ fun PlayerControls(
                     .align(Alignment.Center)
                     .fillMaxWidth(),
                 isPlaying = isPlaying,
-                playbackState = playbackState,
+                isLoading = isLoading,
                 onReplayClick = onReplayClick,
                 onPauseClick = onPauseToggle,
                 onForwardClick = onForwardClick
@@ -93,6 +93,7 @@ private fun PlayerControlsPreview() {
         PlayerControls(
             isVisible = { true },
             isPlaying = { true },
+            isLoading = { false },
             title = { "Frankenstein" },
             onReplayClick = {},
             onForwardClick = {},
@@ -100,7 +101,6 @@ private fun PlayerControlsPreview() {
             totalDuration = { 171 },
             currentTime = { 54 },
             bufferedPercentage = { 32 },
-            playbackState = { 1 },
             onSeekChanged = {},
             onBackClicked = {})
     }

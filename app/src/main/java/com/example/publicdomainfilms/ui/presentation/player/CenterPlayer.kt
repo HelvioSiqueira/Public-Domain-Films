@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -25,7 +26,7 @@ import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 fun CenterPlayer(
     modifier: Modifier = Modifier,
     isPlaying: () -> Boolean,
-    playbackState: () -> Int,
+    isLoading: () -> Boolean,
     onReplayClick: () -> Unit,
     onPauseClick: () -> Unit,
     onForwardClick: () -> Unit,
@@ -35,8 +36,8 @@ fun CenterPlayer(
         isPlaying()
     }
 
-    val playerState = remember(playbackState()) {
-        playbackState()
+    val isVideoLoading = remember(isLoading()) {
+        isLoading()
     }
 
     val colorButtonPlay = MaterialTheme.colorScheme.background.copy(alpha = 0.6f)
@@ -67,13 +68,18 @@ fun CenterPlayer(
             Canvas(modifier = Modifier.size(46.dp), onDraw = {
                 drawCircle(color = colorButtonPlay)
             })
-            Image(
-                painter = when (isVideoPlaying) {
-                    true -> painterResource(id = R.drawable.pause)
-                    false -> painterResource(id = R.drawable.play)
-                },
-                contentDescription = "Icone de Play/Pause",
-            )
+
+            if (isVideoLoading) {
+                CircularProgressIndicator()
+            } else {
+                Image(
+                    painter = when (isVideoPlaying) {
+                        true -> painterResource(id = R.drawable.pause)
+                        false -> painterResource(id = R.drawable.play)
+                    },
+                    contentDescription = "Icone de Play/Pause",
+                )
+            }
         }
 
         //Forward
@@ -93,8 +99,8 @@ fun CenterPlayer(
 private fun CenterPlayerPreview() {
     PublicDomainFilmsTheme {
         CenterPlayer(
-            isPlaying = { true },
-            playbackState = { 0 },
+            isPlaying = { false },
+            isLoading = { false },
             onReplayClick = {},
             onPauseClick = {},
             onForwardClick = {})

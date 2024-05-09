@@ -1,5 +1,6 @@
 package com.example.publicdomainfilms.ui.presentation.filmDetails
 
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -21,8 +22,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,6 +52,7 @@ import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SharedTransitionScope.FilmDetails(
@@ -71,164 +76,174 @@ fun SharedTransitionScope.FilmDetails(
 
     val decodedDescription = description.replace("+", "/")
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column {
-            Box {
-                Image(
-                    modifier = Modifier
-                        .padding(bottom = 10.dp)
-                        .height(300.dp)
-                        .wrapContentWidth()
-                        .sharedElement(
-                            state = rememberSharedContentState(key = "image/${identifier}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            }
-                        ),
-                    painter = rememberAsyncImagePainter("https://archive.org/services/img/${identifier}"),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "Banner film"
-                )
-                Text(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .sharedElement(
-                            state = rememberSharedContentState(key = "year/${identifier}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            }
-                        ),
-                    text = year,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.W900,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier.sharedElement(
-                        state = rememberSharedContentState(key = "title/${identifier}"),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = { _, _ ->
-                            tween(durationMillis = 1000)
-                        }
-                    ),
-                    text = title,
-                    textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontSize = 24.sp, fontWeight = FontWeight.W900
-                    )
-                )
-                if (creator != "null") {
-                    Text(
-                        modifier = Modifier.sharedElement(
-                            state = rememberSharedContentState(key = "creator/${identifier}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            }
-                        ),
-                        text = creator,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.W300,
-                        )
-                    )
-                }
-                Row(
-                    modifier = Modifier.padding(vertical = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RatingStar(
-                        modifier = Modifier.padding(end = 8.dp),
-                        rating = avgRating
-                    )
-                    Text(
-                        modifier = Modifier.sharedElement(
-                            state = rememberSharedContentState(key = "avgRating/${identifier}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            }
-                        ),
-                        text = avgRating.toString(),
-                        textAlign = TextAlign.Start,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.W500
-                        )
-                    )
-                }
+    Scaffold(
+
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                containerColor = MaterialTheme.colorScheme.primary,
+                onClick = {
+                    val decodedUrl = filmUrl.replace("/", "+")
+                    navController.navigate("${NavPages.filmPlayer}/${decodedUrl}/${title}")
+                }) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        modifier = Modifier.sharedElement(
-                            state = rememberSharedContentState(key = "iconDownload/${identifier}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            }
-                        ),
-                        imageVector =  Icons.Filled.Download,
-                        tint = MaterialTheme.colorScheme.primary,
+                        Icons.Filled.PlayArrow,
+                        tint = MaterialTheme.colorScheme.background,
                         contentDescription = null
                     )
-
                     Text(
-                        modifier = Modifier.sharedElement(
-                            state = rememberSharedContentState(key = "downloads/${identifier}"),
-                            animatedVisibilityScope = animatedVisibilityScope,
-                            boundsTransform = { _, _ ->
-                                tween(durationMillis = 1000)
-                            }
-                        ),
-                        text = "Downloads: $downloads",
+                        text = "PLAY",
                         style = MaterialTheme.typography.bodyMedium.copy(
+                            fontSize = 24.sp,
                             fontWeight = FontWeight.W500,
+                            color = MaterialTheme.colorScheme.background
                         )
                     )
                 }
-                Text(
-                    modifier = Modifier
-                        .padding(top = 20.dp)
-                        .height(180.dp)
-                        .verticalScroll(rememberScrollState()),
-                    text = decodedDescription,
-                    textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = FontWeight.W500,
-                        textAlign = TextAlign.Justify
+            }
+        }
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column {
+                Box {
+                    Image(
+                        modifier = Modifier
+                            .padding(bottom = 10.dp)
+                            .height(300.dp)
+                            .wrapContentWidth()
+                            .sharedElement(
+                                state = rememberSharedContentState(key = "image/${identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
+                        painter = rememberAsyncImagePainter("https://archive.org/services/img/${identifier}"),
+                        contentScale = ContentScale.Crop,
+                        contentDescription = "Banner film"
                     )
-                )
-                ElevatedButton(
+                    Text(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .sharedElement(
+                                state = rememberSharedContentState(key = "year/${identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
+                        text = year,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.W900,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    )
+                }
+                Column(
                     modifier = Modifier
-                        .padding(top = 30.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .width(280.dp)
-                        .height(50.dp),
-                    enabled = filmUrl.isNotEmpty(),
-                    onClick = {
-
-                        val decodedUrl = filmUrl.replace("/", "+")
-
-                        navController.navigate("${NavPages.filmPlayer}/${decodedUrl}/${title}")
-                    }) {
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "title/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
+                        text = title,
+                        textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontSize = 24.sp, fontWeight = FontWeight.W900
+                        )
+                    )
+                    if (creator != "null") {
+                        Text(
+                            modifier = Modifier.sharedElement(
+                                state = rememberSharedContentState(key = "creator/${identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
+                            text = creator,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.W300,
+                            )
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RatingStar(
+                            modifier = Modifier.padding(end = 8.dp),
+                            rating = avgRating
+                        )
+                        Text(
+                            modifier = Modifier.sharedElement(
+                                state = rememberSharedContentState(key = "avgRating/${identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
+                            text = avgRating.toString(),
+                            textAlign = TextAlign.Start,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.W500
+                            )
+                        )
+                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Filled.PlayArrow, contentDescription = null)
-                        Text(text = "Play", fontSize = 24.sp)
+                        Icon(
+                            modifier = Modifier.sharedElement(
+                                state = rememberSharedContentState(key = "iconDownload/${identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
+                            imageVector = Icons.Filled.Download,
+                            tint = MaterialTheme.colorScheme.primary,
+                            contentDescription = null
+                        )
+
+                        Text(
+                            modifier = Modifier.sharedElement(
+                                state = rememberSharedContentState(key = "downloads/${identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
+                            text = "Downloads: $downloads",
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.W500,
+                            )
+                        )
                     }
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 20.dp)
+                            .height(180.dp)
+                            .verticalScroll(rememberScrollState()),
+                        text = decodedDescription,
+                        textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.W500,
+                            textAlign = TextAlign.Justify
+                        )
+                    )
                 }
             }
         }

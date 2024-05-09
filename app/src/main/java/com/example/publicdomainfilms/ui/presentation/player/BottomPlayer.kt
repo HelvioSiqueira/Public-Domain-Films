@@ -36,11 +36,6 @@ fun BottomPlayer(
 
     val buffer = remember(bufferedPercentage()) { bufferedPercentage() }
 
-    val textStyle = MaterialTheme.typography.bodyMedium.copy(
-        fontSize = 20.sp,
-        fontWeight = FontWeight.W300
-    )
-
     Column(
         modifier = modifier,
     ) {
@@ -77,7 +72,7 @@ fun BottomPlayer(
                 colors =
                 SliderDefaults.colors(
                     disabledThumbColor = Color.Transparent,
-                    disabledActiveTrackColor = MaterialTheme.colorScheme.surface
+                    disabledActiveTrackColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.1f)
                 )
             )
             Slider(
@@ -88,7 +83,8 @@ fun BottomPlayer(
                 colors =
                 SliderDefaults.colors(
                     thumbColor = MaterialTheme.colorScheme.primary,
-                    activeTickColor = MaterialTheme.colorScheme.primary
+                    activeTickColor = MaterialTheme.colorScheme.primary,
+                    inactiveTrackColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.1F)
                 )
             )
         }
@@ -116,8 +112,8 @@ private fun BottomPlayerPreview() {
     PublicDomainFilmsTheme {
         BottomPlayer(
             totalDuration = { 171 },
-            currentTime = { 0 },
-            bufferedPercentage = { 0 },
+            currentTime = { 50 },
+            bufferedPercentage = { 70 },
             onSeekChanged = {})
     }
 }

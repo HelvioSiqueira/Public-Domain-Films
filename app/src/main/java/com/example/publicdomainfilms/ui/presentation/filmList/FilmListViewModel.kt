@@ -23,7 +23,7 @@ class FilmListViewModel @Inject constructor(
     val isLoading = _isLoading.asStateFlow()
 
     init {
-        getFilms(genreIdentifier = "Film_Noir")
+        getFilms(genreIdentifier = "Comedy_Films")
     }
 
     fun getFilms(genreIdentifier: String) {

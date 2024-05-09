@@ -69,6 +69,8 @@ fun PlayerPage(
 
     var isPlaying by remember { mutableStateOf(exoPlayer.isPlaying) }
 
+    var isLoading by remember { mutableStateOf(exoPlayer.isLoading) }
+
     var totalDuration by remember { mutableLongStateOf(0L) }
 
     var currentTime by remember { mutableLongStateOf(0L) }
@@ -113,6 +115,7 @@ fun PlayerPage(
                     bufferedPercentage = player.bufferedPercentage
                     isPlaying = player.isPlaying
                     playbackState = player.playbackState
+                    isLoading = player.isLoading
                 }
             }
 
@@ -153,8 +156,8 @@ fun PlayerPage(
         onBackClicked = { navController.popBackStack() },
         isVisible = { shouldShowControls },
         isPlaying = { isPlaying },
+        isLoading = { isLoading },
         title = { filmName },
-        playbackState = { playbackState },
         onReplayClick = { exoPlayer.seekBack() },
         onForwardClick = { exoPlayer.seekForward() },
         onPauseToggle = {
