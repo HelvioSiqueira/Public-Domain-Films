@@ -77,7 +77,6 @@ fun SharedTransitionScope.FilmDetails(
     val decodedDescription = description.replace("+", "/")
 
     Scaffold(
-
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.primary,
