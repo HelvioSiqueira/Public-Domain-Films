@@ -1,5 +1,9 @@
 package com.example.publicdomainfilms.ui.presentation.filmDetails
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,15 +38,17 @@ import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun FilmDetails(
+fun SharedTransitionScope.FilmDetails(
     identifier: String,
     title: String,
     creator: String,
     avgRating: Float,
     downloads: Int,
     description: String,
-    year: String
+    year: String,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
     val decodedDescription = description.replace("+", "/")
@@ -57,22 +63,35 @@ fun FilmDetails(
                     modifier = Modifier
                         .padding(bottom = 10.dp)
                         .height(300.dp)
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .sharedElement(
+                            state = rememberSharedContentState(key = "image/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
                     painter = rememberAsyncImagePainter("https://archive.org/services/img/${identifier}"),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Banner film"
                 )
-                if (year != "null") {
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = year,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.W900,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
+                Text(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .sharedElement(
+                            state = rememberSharedContentState(key = "year/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
+                    text = year,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.W900,
+                        color = MaterialTheme.colorScheme.secondary
                     )
-                }
+                )
             }
             Column(
                 modifier = Modifier
@@ -80,6 +99,13 @@ fun FilmDetails(
                     .fillMaxWidth()
             ) {
                 Text(
+                    modifier = Modifier.sharedElement(
+                        state = rememberSharedContentState(key = "title/${identifier}"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 1000)
+                        }
+                    ),
                     text = title,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.bodyMedium.copy(
@@ -88,6 +114,13 @@ fun FilmDetails(
                 )
                 if (creator != "null") {
                     Text(
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "creator/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
                         text = creator,
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.W300,
@@ -103,6 +136,13 @@ fun FilmDetails(
                         rating = avgRating
                     )
                     Text(
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "avgRating/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
                         text = avgRating.toString(),
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.bodyMedium.copy(
@@ -120,6 +160,13 @@ fun FilmDetails(
                     )
 
                     Text(
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "downloads/${identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
                         text = "Downloads: $downloads",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.W500,
@@ -154,21 +201,5 @@ fun FilmDetails(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun FilmDetailsPreview() {
-    PublicDomainFilmsTheme {
-        FilmDetails(
-            avgRating = 5.0F,
-            description = "Alice's Wonderland (1923), from the series Laugh-O-Grams. View movies and cartoons on youtube @ PDFREETV View trailers on youtube @ The Trailer Archive",
-            downloads = 144841,
-            identifier = "AlicesWonderland",
-            title = "Alice's Wonderland",
-            year = "1923",
-            creator = "Laugh-O-Gram Films"
-        )
     }
 }

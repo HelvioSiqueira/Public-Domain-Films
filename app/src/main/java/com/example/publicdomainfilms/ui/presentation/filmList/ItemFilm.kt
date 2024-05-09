@@ -1,5 +1,9 @@
 package com.example.publicdomainfilms.ui.presentation.filmList
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -34,14 +38,14 @@ import com.example.publicdomainfilms.model.Film
 import com.example.publicdomainfilms.routes.NavPages
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import timber.log.Timber
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun ItemFilm(
+fun SharedTransitionScope.ItemFilm(
     modifier: Modifier = Modifier,
     film: Film,
-    navController: NavController
+    navController: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope
 ) {
 
     val cardColors = CardDefaults.cardColors(
@@ -69,9 +73,9 @@ fun ItemFilm(
                         .replace("/", "+")
                 }
 
-                Timber.d(description)
+                Timber.d("${NavPages.filmDetails}/${film.identifier}/${film.title}/${film.creator ?: "Unknown"}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
 
-                navController.navigate("${NavPages.filmDetails}/${film.identifier}/${film.title}/${film.creator ?: "null"}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "null"}")
+                navController.navigate("${NavPages.filmDetails}/${film.identifier}/${film.title}/${film.creator ?: "Unknown"}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
             },
         colors = cardColors,
     ) {
@@ -81,41 +85,66 @@ fun ItemFilm(
                     modifier = Modifier
                         .padding(bottom = 10.dp)
                         .height(150.dp)
-                        .wrapContentWidth(),
+                        .wrapContentWidth()
+                        .sharedElement(
+                            state = rememberSharedContentState(key = "image/${film.identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
                     painter = rememberAsyncImagePainter("https://archive.org/services/img/${film.identifier}"),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Banner film"
                 )
-                if (film.year != null) {
-                    Text(
-                        modifier = Modifier.padding(8.dp),
-                        text = "${film.year}",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.W900,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
+                Text(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .sharedElement(
+                            state = rememberSharedContentState(key = "year/${film.identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
+                    text = "${film.year ?: "Unknown"}",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W900,
+                        color = MaterialTheme.colorScheme.secondary
                     )
-                }
+                )
             }
 
             Column(
                 modifier = Modifier.padding(horizontal = 12.dp)
             ) {
                 Text(
+                    modifier = Modifier.sharedElement(
+                        state = rememberSharedContentState(key = "title/${film.identifier}"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 1000)
+                        }
+                    ),
                     text = film.title,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W900)
                 )
-                if (film.creator != null) {
-                    Text(
-                        text = film.creator,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.W300,
-                        )
+                Text(
+                    modifier = Modifier.sharedElement(
+                        state = rememberSharedContentState(key = "creator/${film.identifier}"),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = { _, _ ->
+                            tween(durationMillis = 1000)
+                        }
+                    ),
+                    text = film.creator ?: "Unknown",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.W300,
                     )
-                }
+                )
                 Row(
                     modifier = Modifier.padding(top = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -127,7 +156,15 @@ fun ItemFilm(
                     )
 
                     Text(
-                        modifier = Modifier.padding(end = 5.dp),
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                            .sharedElement(
+                                state = rememberSharedContentState(key = "avgRating/${film.identifier}"),
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { _, _ ->
+                                    tween(durationMillis = 1000)
+                                }
+                            ),
                         text = "${film.avgRating}",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontSize = 12.sp,
@@ -142,6 +179,13 @@ fun ItemFilm(
                     )
 
                     Text(
+                        modifier = Modifier.sharedElement(
+                            state = rememberSharedContentState(key = "downloads/${film.identifier}"),
+                            animatedVisibilityScope = animatedVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                tween(durationMillis = 1000)
+                            }
+                        ),
                         text = "${film.downloads}",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontSize = 12.sp,
@@ -152,25 +196,5 @@ fun ItemFilm(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-private fun ItemFilmPreview() {
-    PublicDomainFilmsTheme {
-        ItemFilm(
-            film = Film(
-                avgRating = 5.0,
-                description = "Alice's Wonderland (1923), from the series Laugh-O-Grams. View movies and cartoons on youtube @ PDFREETV View trailers on youtube @ The Trailer Archive",
-                downloads = 144841,
-                identifier = "AlicesWonderland",
-                numReviews = 8,
-                title = "Alice's Wonderland",
-                year = 1923,
-                creator = "Laugh-O-Gram Films"
-            ),
-            navController = rememberNavController()
-        )
     }
 }

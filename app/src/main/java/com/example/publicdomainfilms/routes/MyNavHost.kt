@@ -3,6 +3,7 @@ package com.example.publicdomainfilms.routes
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -21,7 +22,7 @@ fun MyNavHost(
     SharedTransitionLayout {
         NavHost(navController = navController, startDestination = startDestination) {
             composable(NavPages.filmListPage) {
-                FilmList(navController = navController)
+                FilmList(navController = navController, animatedVisibilityScope = this)
             }
 
             composable(
@@ -58,6 +59,7 @@ fun MyNavHost(
                     downloads = it.arguments?.getInt("downloads") ?: 0,
                     description = it.arguments?.getString("description") ?: "",
                     year = it.arguments?.getString("year") ?: "",
+                    animatedVisibilityScope = this
                 )
             }
         }
