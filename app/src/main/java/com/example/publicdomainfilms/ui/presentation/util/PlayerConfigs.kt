@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import timber.log.Timber
 
 @Composable
 fun LockScreenOrientation(orientation: Int) {
@@ -33,6 +34,7 @@ fun Context.findActivity(): Activity? = when (this) {
 fun Context.hideSystemUi() {
     val activity = this.findActivity() ?: return
     val window = activity.window ?: return
+    Timber.d("Chamou hideSystemUi")
     WindowCompat.setDecorFitsSystemWindows(window, false)
     WindowInsetsControllerCompat(window, window.decorView).let { controller ->
         controller.hide(WindowInsetsCompat.Type.systemBars())

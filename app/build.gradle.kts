@@ -59,6 +59,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.animation)
 
+    //Splash Screen
+    implementation (libs.androidx.core.splashscreen)
+
+    //System ui controller
     implementation(libs.accompanist.systemuicontroller)
 
     //Icons Extended

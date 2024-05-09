@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlayerControls(
     modifier: Modifier = Modifier,
@@ -67,14 +66,12 @@ fun PlayerControls(
                     .align(Alignment.BottomCenter)
                     .background(Color.Black.copy(alpha = 0.5f))
                     .animateEnterExit(
-                        enter =
-                        slideInVertically(
+                        enter = slideInVertically(
                             initialOffsetY = { fullHeight: Int ->
                                 fullHeight
                             }
                         ),
-                        exit =
-                        slideOutVertically(
+                        exit = slideOutVertically(
                             targetOffsetY = { fullHeight: Int ->
                                 fullHeight
                             }

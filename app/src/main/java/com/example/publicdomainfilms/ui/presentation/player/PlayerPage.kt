@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -41,6 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.publicdomainfilms.ui.presentation.util.LockScreenOrientation
 import com.example.publicdomainfilms.ui.presentation.util.findActivity
 import com.example.publicdomainfilms.ui.presentation.util.hideSystemUi
+import com.example.publicdomainfilms.ui.presentation.util.showSystemUi
 import com.example.publicdomainfilms.ui.theme.PublicDomainFilmsTheme
 import timber.log.Timber
 
@@ -54,8 +56,6 @@ fun PlayerPage(
     val context = LocalContext.current
 
     val contentUri = contentUriReceiver.replace("+", "/")
-
-    Timber.d(contentUri)
 
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
     context.hideSystemUi()
