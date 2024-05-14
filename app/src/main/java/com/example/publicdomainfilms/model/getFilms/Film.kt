@@ -6,7 +6,7 @@ data class Film(
 
     @SerializedName("avg_rating")
     val avgRating: Double,
-    val description: Any,
+    val description: Any = "",
     val downloads: Int,
     val identifier: String,
     @SerializedName("num_reviews")

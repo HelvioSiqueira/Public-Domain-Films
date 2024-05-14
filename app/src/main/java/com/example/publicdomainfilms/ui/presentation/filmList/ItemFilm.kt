@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
-import androidx.compose.material.icons.filled.StarRate
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -77,16 +76,24 @@ fun SharedTransitionScope.ItemFilm(
                     description = (descriptionAny as ArrayList<*>)
                         .first()
                         .toString()
-                        .replace("/", "+")
                 } else if (descriptionAny.javaClass == String::class.java) {
                     description = descriptionAny
                         .toString()
-                        .replace("/", "+")
                 }
 
-                Timber.d("${NavPages.filmDetails}/${film.identifier}/${film.title}/${creator.ifEmpty { "Unknown" }}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
+                Timber.d("${film.identifier}/${film.title}/${creator.ifEmpty { "Unknown" }}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
 
-                navController.navigate("${NavPages.filmDetails}/${film.identifier}/${film.title}/${creator.ifEmpty { "Unknown" }}/${film.avgRating}/${film.downloads}/${description}/${film.year ?: "1900"}")
+                navController.navigate(
+                    NavPages.FilmDetailsPage(
+                        identifier = film.identifier,
+                        title = film.title,
+                        creator = creator.ifEmpty { "Unknown" },
+                        avgRating = film.avgRating.toFloat(),
+                        downloads = film.downloads,
+                        description = description,
+                        year = film.year ?: 1990
+                    )
+                )
             },
         colors = cardColors,
     ) {
