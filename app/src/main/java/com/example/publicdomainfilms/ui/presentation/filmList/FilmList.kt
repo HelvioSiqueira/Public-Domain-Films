@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -46,7 +47,7 @@ fun SharedTransitionScope.FilmList(
 ) {
 
     val listOfFilms by remember { viewModel.listOfFilms }
-    var titleAppBar by remember { mutableStateOf("COMEDY") }
+    var titleAppBar by rememberSaveable { mutableStateOf("COMEDY") }
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
