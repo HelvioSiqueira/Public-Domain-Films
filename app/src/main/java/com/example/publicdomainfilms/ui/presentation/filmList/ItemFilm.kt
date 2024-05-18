@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,7 +48,10 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.example.publicdomainfilms.R
 import com.example.publicdomainfilms.model.getFilms.Film
 import com.example.publicdomainfilms.routes.NavPages
@@ -68,6 +73,14 @@ fun SharedTransitionScope.ItemFilm(
     val creatorAny = film.creator
     var creator = ""
 
+    val image = rememberAsyncImagePainter(
+        model = ImageRequest
+            .Builder(LocalContext.current)
+            .data("https://archive.org/services/img/${film.identifier}")
+            .size(Size(height = 150, width = 150))
+            .build()
+    )
+
     if (creatorAny?.javaClass == ArrayList::class.java) {
         creator = (creatorAny as ArrayList<*>)
             .first()
@@ -76,19 +89,6 @@ fun SharedTransitionScope.ItemFilm(
     } else if (creatorAny?.javaClass == String::class.java) {
         creator = creatorAny.toString().split(",").first()
     }
-
-//    Card(
-//        modifier = Modifier
-//            .wrapContentSize()
-//            .padding(8.dp)
-//            .defaultMinSize(minHeight = 300.dp),
-//        onClick = { /*TODO*/ }) {
-//        Column(modifier = Modifier
-//            .fillMaxSize()
-//            .shimmerEffect()) {
-//
-//        }
-//    }
 
     Card(
         modifier = modifier
@@ -132,6 +132,7 @@ fun SharedTransitionScope.ItemFilm(
                         .padding(bottom = 10.dp)
                         .height(150.dp)
                         .wrapContentWidth()
+                        .shimmerEffect(image.state is AsyncImagePainter.State.Loading)
                         .sharedElement(
                             state = rememberSharedContentState(key = "image/${film.identifier}"),
                             animatedVisibilityScope = animatedVisibilityScope,
@@ -139,7 +140,7 @@ fun SharedTransitionScope.ItemFilm(
                                 tween(durationMillis = 1000)
                             }
                         ),
-                    painter = rememberAsyncImagePainter("https://archive.org/services/img/${film.identifier}"),
+                    painter = image,
                     contentScale = ContentScale.Crop,
                     contentDescription = "Banner film"
                 )
@@ -252,7 +253,7 @@ fun SharedTransitionScope.ItemFilm(
     }
 }
 
-fun Modifier.shimmerEffect(): Modifier = composed {
+fun Modifier.shimmerEffect(isLoading: Boolean): Modifier = composed {
     var size by remember { mutableStateOf(IntSize.Zero) }
 
     val transition = rememberInfiniteTransition()
@@ -267,17 +268,21 @@ fun Modifier.shimmerEffect(): Modifier = composed {
         ), label = ""
     )
 
-    background(
-        brush = Brush.linearGradient(
-            colors = listOf(
-                Color(0xFF999595),
-                MaterialTheme.colorScheme.background,
-                Color(0xFF999595)
-            ),
-            start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
-        )
-    ).onGloballyPositioned {
-        size = it.size
+    if (isLoading) {
+        background(
+            brush = Brush.linearGradient(
+                colors = listOf(
+                    Color(0xFF999595),
+                    MaterialTheme.colorScheme.background,
+                    Color(0xFF999595)
+                ),
+                start = Offset(startOffsetX, 0f),
+                end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
+            )
+        ).onGloballyPositioned {
+            size = it.size
+        }
+    } else {
+        background(color = Color.Transparent)
     }
 }
