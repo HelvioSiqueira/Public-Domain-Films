@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -176,7 +177,11 @@ fun SharedTransitionScope.ItemFilm(
                     ),
                     text = film.title,
                     textAlign = TextAlign.Start,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W900)
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.W900)
                 )
                 Text(
                     modifier = Modifier.sharedElement(

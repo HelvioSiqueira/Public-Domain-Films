@@ -14,7 +14,6 @@ val Typography = Typography(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 23.12.sp,
         letterSpacing = 0.5.sp,
         color = md_theme_light_text
     )
