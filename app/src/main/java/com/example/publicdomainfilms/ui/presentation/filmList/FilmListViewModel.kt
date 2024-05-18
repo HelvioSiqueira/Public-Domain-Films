@@ -1,6 +1,7 @@
 package com.example.publicdomainfilms.ui.presentation.filmList
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.publicdomainfilms.data.Repository
@@ -28,6 +29,8 @@ class FilmListViewModel @Inject constructor(
 
     fun getFilms(genreIdentifier: String) {
         viewModelScope.launch {
+
+            _isLoading.value = true
 
             val filmListFlow =
                 repository.getFilms(
